@@ -218,6 +218,14 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
             BiometricSourceType biometricSourceType) {
             dispatchFodFingerprintRunningStateChanged(running);
         }
+		
+		@Override
+        public void onStrongAuthStateChanged(int userId) {
+            mCanUnlockWithFp = canUnlockWithFp();
+            if (mIsShowing && !mCanUnlockWithFp){
+                hide();
+            }
+        }
     };
 
     private boolean mCutoutMasked;
@@ -258,15 +266,6 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
     }
 
     private BrightnessObserver mBrightnessObserver;
-	
-        @Override
-        public void onStrongAuthStateChanged(int userId) {
-            mCanUnlockWithFp = canUnlockWithFp();
-            if (mIsShowing && !mCanUnlockWithFp){
-                hide();
-            }
-        }
-    };
 
     private void dispatchFodScreenStateChanged(boolean interactive){
         dispatchFodFingerprintHasEnrolledFinger();
